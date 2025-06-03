@@ -1,8 +1,11 @@
 from bs4 import BeautifulSoup
+from config import logger
 import csv
 import requests
 
-from constants import BASE_URL, logger
+from constants import BASE_URL
+
+
 
 
 class AnimalParser:
@@ -16,11 +19,9 @@ class AnimalParser:
         logger.info('Получение страниц с удаленного адреса...')
         try:
             current_url = f'{self.url}wiki/Категория:Животные_по_алфавиту'
-            counter = 1
 
             while True:
                 self._get_data(current_url)
-                counter += 1
                 response = requests.get(current_url)
                 soup = BeautifulSoup(response.text, 'html.parser')
                 next_page_link = soup.find('a', string='Следующая страница')
@@ -50,7 +51,7 @@ class AnimalParser:
         logger.info(f'Подсчет количества животных на каждую букву алфавита...')
         for animal in self.buffer:
             self.animals_counter[animal[0].upper()] = self.animals_counter.get(animal[0].upper(), 0) + 1
-        print(self.animals_counter)
+
         logger.info(f'Подсчет количества животных на каждую букву алфавита завершен...')
         return self.animals_counter
 
