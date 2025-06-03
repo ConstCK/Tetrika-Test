@@ -27,9 +27,3 @@ def strict(func):
     return wrapper
 
 
-@strict
-def some_fn(a: int, b: int) -> str:
-    return f'b -- {a}'
-
-
-print(some_fn(a=1, b=2.5))
